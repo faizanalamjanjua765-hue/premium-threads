@@ -4,97 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Threads | Pants & Shirts Store</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <style>
-        /* Purana Original CSS Style Theme */
-        body {
-            background-color: #0b0c10;
-            color: #c5c6c7;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Exact Original Layout Fixes */
+        #products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        header {
-            background-color: #1f2833;
-            padding: 15px 0;
-            border-bottom: 1px solid #333;
-        }
-        .navbar-custom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .logo span {
-            color: #d4af37;
-        }
-        .nav-links-custom {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-            margin: 0;
-            padding: 0;
-        }
-        .nav-links-custom a {
-            color: #c5c6c7;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        .nav-links-custom a:hover {
-            color: #d4af37;
-        }
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600') no-repeat center center/cover;
-            padding: 100px 0;
+        .alert-promo {
+            background-color: #d4af37; 
+            color: #000; 
+            font-weight: bold; 
+            border: none;
             text-align: center;
-        }
-        .hero h1 {
-            font-size: 48px;
-            color: #fff;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-        .hero p {
-            color: #c5c6c7;
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-        .hero .btn-custom {
-            background-color: #fff;
-            color: #000;
-            padding: 10px 25px;
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 1200px;
             border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s;
         }
-        .hero .btn-custom:hover {
-            background-color: #d4af37;
-            color: #000;
-        }
-        .section-title {
+        .section-title-custom {
+            text-align: center;
+            margin-bottom: 50px;
             color: #fff;
-            font-weight: 700;
+            font-size: 32px;
+            position: relative;
         }
-        .product-card {
-            border: 1px solid #1f2833 !important;
-            transition: transform 0.3s;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            border-color: #d4af37 !important;
-        }
-        .product-card img {
-            height: 320px;
-            object-fit: cover;
-        }
-        /* Fixed Classic Cart Sidebar */
-        #cart-sidebar {
+        /* Fixed Professional Cart Sidebar overlaying old theme */
+        .cart-sidebar {
             position: fixed;
             top: 0;
             right: -400px;
@@ -108,10 +50,10 @@
             display: flex;
             flex-direction: column;
         }
-        #cart-sidebar.active {
+        .cart-sidebar.active {
             right: 0;
         }
-        #cart-overlay {
+        .cart-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -121,7 +63,7 @@
             z-index: 2999;
             display: none;
         }
-        #cart-overlay.active {
+        .cart-overlay.active {
             display: block;
         }
         .cart-item-row {
@@ -133,366 +75,350 @@
             background-color: #0b0c10;
             border-radius: 5px;
             border-left: 3px solid #d4af37;
+            color: #fff;
         }
         @media (max-width: 450px) {
-            #cart-sidebar { width: 100%; right: -100%; }
-            .nav-links-custom { display: none; }
+            .cart-sidebar { width: 100%; right: -100%; }
         }
     </style>
 </head>
 <body>
-
     <header>
-        <div class="container navbar-custom">
+        <div class="navbar">
+            <div id="mobile-menu-icon" class="mobile-menu-icon">
+                <i class="fas fa-bars"></i>
+            </div>
             <div class="logo">
                 <a href="#">Premium<span>Threads</span></a>
             </div>
             <nav>
-                <ul class="nav-links-custom">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#products">Shirts</a></li>
-                    <li><a href="#products">Pants</a></li>
-                    <li><a href="#products">New Arrivals</a></li>
+                <ul class="nav-links">
+                    <li><a href="#" class="nav-filter active" data-filter="all">Home</a></li>
+                    <li><a href="#products" class="nav-filter" data-filter="shirt">Shirts</a></li>
+                    <li><a href="#products" class="nav-filter" data-filter="pant">Pants</a></li>
+                    <li><a href="#products" class="nav-filter" data-filter="all">New Arrivals</a></li>
                 </ul>
             </nav>
-            <div class="nav-icons d-flex align-items-center gap-3">
-                <a href="#" id="open-cart-btn" class="text-white position-relative fs-4" style="text-decoration: none;">
-                    <i class="fas fa-shopping-cart text-warning"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count" style="font-size: 0.7rem;">0</span>
+            <div class="nav-icons">
+                <a href="#" class="icon-btn"><i class="fas fa-search"></i></a>
+                <a href="#" id="open-cart-btn" style="position: relative; color: #fff; text-decoration: none; margin: 0 10px;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" style="position: absolute; top: -10px; right: -10px; background-color: #d4af37; color: #000; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;">0</span>
                 </a>
+                <a href="#" class="icon-btn"><i class="fas fa-user"></i></a>
             </div>
         </div>
     </header>
 
     <section class="hero">
-        <div class="container">
+        <div class="hero-content">
             <h1>Upgrade Your Wardrobe</h1>
             <p>Discover the finest collection of premium quality Shirts and tailored Pants.</p>
-            <a href="#products" class="btn-custom">Shop Collection</a>
+            <a href="#products" class="btn">Shop Collection</a>
         </div>
     </section>
 
-    <section id="products" class="py-5">
-        <div class="container">
-            <div class="alert text-center mb-5 shadow-sm" role="alert" style="background-color: #d4af37; color: #000; font-weight: bold; border: none;">
-                ⚡ Limited Time Offer: FREE Shipping All Over Pakistan on orders above Rs. 3,000!
+    <div class="alert-promo">
+        ⚡ Limited Time Offer: FREE Shipping All Over Pakistan on orders above Rs. 3,000!
+    </div>
+
+    <section id="products">
+        <h2 class="section-title-custom">Our Premium Collection</h2>
+        <div id="products-grid">
+            
+            <div class="product-card" data-category="shirt">
+                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500" alt="Premium Slim-Fit Shirt">
+                <div class="product-info">
+                    <h3>Premium Slim-Fit Shirt</h3>
+                    <p>Pure cotton, perfect for formal & casual wear.</p>
+                    <div class="price">Rs. 2,199 <del>Rs. 2,999</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Premium Slim-Fit Shirt', 2199)">Add to Cart</button>
+                </div>
             </div>
 
-            <h2 class="text-center mb-5 section-title">Our Premium Collection</h2>
-            <div class="row g-4">
-                
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500" class="card-img-top" alt="Premium Slim-Fit Shirt">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Premium Slim-Fit Shirt</h5>
-                            <p class="card-text text-muted small">Pure cotton, perfect for formal & casual wear.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,199 <del class="text-muted fs-6">Rs. 2,999</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Premium Slim-Fit Shirt', 2199)">Add to Cart</button>
-                        </div>
-                    </div>
+            <div class="product-card" data-category="shirt">
+                <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500" alt="Royal Blue Formal Shirt">
+                <div class="product-info">
+                    <h3>Royal Blue Formal Shirt</h3>
+                    <p>Premium stiff collar oxford fabric for office wear.</p>
+                    <div class="price">Rs. 2,350 <del>Rs. 3,200</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Royal Blue Formal Shirt', 2350)">Add to Cart</button>
                 </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500" class="card-img-top" alt="Royal Blue Formal Shirt">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Royal Blue Formal Shirt</h5>
-                            <p class="card-text text-muted small">Premium stiff collar oxford fabric for office wear.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,350 <del class="text-muted fs-6">Rs. 3,200</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Royal Blue Formal Shirt', 2350)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=500" class="card-img-top" alt="Charcoal Casual Shirt">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Charcoal Casual Shirt</h5>
-                            <p class="card-text text-muted small">Breathable light-weight cotton shirt for summer.</p>
-                            <h4 class="text-warning mt-auto">Rs. 1,999 <del class="text-muted fs-6">Rs. 2,700</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Charcoal Casual Shirt', 1999)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?w=500" class="card-img-top" alt="Classic White Luxury Shirt">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Classic White Luxury Shirt</h5>
-                            <p class="card-text text-muted small">Crisp white linen blend, absolute masterpiece.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,500 <del class="text-muted fs-6">Rs. 3,500</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Classic White Luxury Shirt', 2500)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500" class="card-img-top" alt="Black Matt Finished Shirt">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Black Matt Finished Shirt</h5>
-                            <p class="card-text text-muted small">Jet black luxury fabric that doesn't fade away.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,250 <del class="text-muted fs-6">Rs. 3,000</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Black Matt Finished Shirt', 2250)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=500" class="card-img-top" alt="Olive Green Cargo Shirt">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Olive Green Cargo Shirt</h5>
-                            <p class="card-text text-muted small">Rugged double pocket design for adventure looks.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,400 <del class="text-muted fs-6">Rs. 3,300</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Olive Green Cargo Shirt', 2400)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?w=500" class="card-img-top" alt="Burgundy Party Wear Shirt">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Burgundy Party Wear Shirt</h5>
-                            <p class="card-text text-muted small">Satin smooth finish for dinners and events.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,600 <del class="text-muted fs-6">Rs. 3,600</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Burgundy Party Wear Shirt', 2600)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=500" class="card-img-top" alt="Navy Blue Striped Shirt">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Navy Blue Striped Shirt</h5>
-                            <p class="card-text text-muted small">Vertical stripes that give a taller and slim look.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,150 <del class="text-muted fs-6">Rs. 2,900</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Navy Blue Striped Shirt', 2150)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1620012253295-c05518e993be?w=500" class="card-img-top" alt="Soft Pink Pastel Shirt">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Soft Pink Pastel Shirt</h5>
-                            <p class="card-text text-muted small">Trendy summer shade, ultra soft fabric texture.</p>
-                            <h4 class="text-warning mt-auto">Rs. 1,950 <del class="text-muted fs-6">Rs. 2,600</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Soft Pink Pastel Shirt', 1950)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1563630423918-b58f07298bb9?w=500" class="card-img-top" alt="Classic Denim Shirt">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Classic Denim Shirt</h5>
-                            <p class="card-text text-muted small">Pure indigo washed durable denim shirt.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,750 <del class="text-muted fs-6">Rs. 3,800</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Classic Denim Shirt', 2750)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=500" class="card-img-top" alt="Light Grey Melange Shirt">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Light Grey Melange Shirt</h5>
-                            <p class="card-text text-muted small">Minimalist semi-formal shirt for daily use.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,000 <del class="text-muted fs-6">Rs. 2,800</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Light Grey Melange Shirt', 2000)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500" class="card-img-top" alt="Beige Linen Summer Shirt">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Beige Linen Summer Shirt</h5>
-                            <p class="card-text text-muted small">Stay cool with our premium airy linen collection.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,450 <del class="text-muted fs-6">Rs. 3,400</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Beige Linen Summer Shirt', 2450)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500" class="card-img-top" alt="Classic Chino Pants">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Classic Chino Pants</h5>
-                            <p class="card-text text-muted small">Stretchable, durable, and extremely comfortable.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,499 <del class="text-muted fs-6">Rs. 3,499</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Classic Chino Pants', 2499)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=500" class="card-img-top" alt="Luxury Denim Jeans">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Luxury Denim Jeans</h5>
-                            <p class="card-text text-muted small">Premium dark wash denim with a perfect tailored fit.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,999 <del class="text-muted fs-6">Rs. 4,199</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Luxury Denim Jeans', 2999)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=500" class="card-img-top" alt="Khaki Smart Chinos">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Khaki Smart Chinos</h5>
-                            <p class="card-text text-muted small">Timeless khaki shade, pairs perfectly with everything.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,399 <del class="text-muted fs-6">Rs. 3,200</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Khaki Smart Chinos', 2399)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=500" class="card-img-top" alt="Jet Black Skinny Jeans">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Jet Black Skinny Jeans</h5>
-                            <p class="card-text text-muted small">Deep pitch black stretchable denim jeans.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,899 <del class="text-muted fs-6">Rs. 3,999</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Jet Black Skinny Jeans', 2899)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1604176354204-9268737828e4?w=500" class="card-img-top" alt="Charcoal Formal Trousers">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Charcoal Formal Trousers</h5>
-                            <p class="card-text text-muted small">Non-crease textured formal trousers for gentlemen.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,650 <del class="text-muted fs-6">Rs. 3,500</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Charcoal Formal Trousers', 2650)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1517423738875-5ce310acd3da?w=500" class="card-img-top" alt="Ice Blue Ripped Jeans">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Ice Blue Ripped Jeans</h5>
-                            <p class="card-text text-muted small">Casual rugged aesthetics with light distressing.</p>
-                            <h4 class="text-warning mt-auto">Rs. 3,100 <del class="text-muted fs-6">Rs. 4,500</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Ice Blue Ripped Jeans', 3100)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1551854838-212c50b4c184?w=500" class="card-img-top" alt="Navy Blue Dress Pants">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Navy Blue Dress Pants</h5>
-                            <p class="card-text text-muted small">Premium poly-viscose blend sleek regular trousers.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,550 <del class="text-muted fs-6">Rs. 3,400</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Navy Blue Dress Pants', 2550)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500" class="card-img-top" alt="Olive Relaxed Cargo Pants">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Olive Relaxed Cargo Pants</h5>
-                            <p class="card-text text-muted small">6-pocket utility combat trousers with supreme fabric.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,999 <del class="text-muted fs-6">Rs. 4,000</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Olive Relaxed Cargo Pants', 2999)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?w=500" class="card-img-top" alt="Slate Grey Jogger Pants">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Slate Grey Jogger Pants</h5>
-                            <p class="card-text text-muted small">Comfortable smart-casual joggers with cuffed ankles.</p>
-                            <h4 class="text-warning mt-auto">Rs. 1,999 <del class="text-muted fs-6">Rs. 2,800</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Slate Grey Jogger Pants', 1999)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1565041713146-21808061e860?w=500" class="card-img-top" alt="Light Wash Classic Denim">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Light Wash Classic Denim</h5>
-                            <p class="card-text text-muted small">Old-school 90s comfort fit vintage light wash jeans.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,790 <del class="text-muted fs-6">Rs. 3,900</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Light Wash Classic Denim', 2790)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500" class="card-img-top" alt="Beige Tailored Corduroy">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Beige Tailored Corduroy</h5>
-                            <p class="card-text text-muted small">Luxury ribbed fabric trousers for premium winter vibe.</p>
-                            <h4 class="text-warning mt-auto">Rs. 3,200 <del class="text-muted fs-6">Rs. 4,600</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Beige Tailored Corduroy', 3200)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card product-card h-100 bg-dark text-white">
-                        <img src="https://images.unsplash.com/photo-1484516396415-4971641de8e0?w=500" class="card-img-top" alt="Off-White Summer Linen">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Off-White Summer Linen</h5>
-                            <p class="card-text text-muted small">Breathable elegant loose fit trousers for hot weather.</p>
-                            <h4 class="text-warning mt-auto">Rs. 2,400 <del class="text-muted fs-6">Rs. 3,300</del></h4>
-                            <button class="btn btn-outline-warning mt-3" onclick="addToCart('Off-White Summer Linen', 2400)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+
+            <div class="product-card" data-category="shirt">
+                <img src="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=500" alt="Charcoal Casual Shirt">
+                <div class="product-info">
+                    <h3>Charcoal Casual Shirt</h3>
+                    <p>Breathable light-weight cotton shirt for summer.</p>
+                    <div class="price">Rs. 1,999 <del>Rs. 2,700</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Charcoal Casual Shirt', 1999)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="shirt">
+                <img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?w=500" alt="Classic White Luxury Shirt">
+                <div class="product-info">
+                    <h3>Classic White Luxury Shirt</h3>
+                    <p>Crisp white linen blend, absolute masterpiece.</p>
+                    <div class="price">Rs. 2,500 <del>Rs. 3,500</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Classic White Luxury Shirt', 2500)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="shirt">
+                <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500" alt="Black Matt Finished Shirt">
+                <div class="product-info">
+                    <h3>Black Matt Finished Shirt</h3>
+                    <p>Jet black luxury fabric that doesn't fade away.</p>
+                    <div class="price">Rs. 2,250 <del>Rs. 3,000</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Black Matt Finished Shirt', 2250)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="shirt">
+                <img src="https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=500" alt="Olive Green Cargo Shirt">
+                <div class="product-info">
+                    <h3>Olive Green Cargo Shirt</h3>
+                    <p>Rugged double pocket design for adventure looks.</p>
+                    <div class="price">Rs. 2,400 <del>Rs. 3,300</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Olive Green Cargo Shirt', 2400)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="shirt">
+                <img src="https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?w=500" alt="Burgundy Party Wear Shirt">
+                <div class="product-info">
+                    <h3>Burgundy Party Wear Shirt</h3>
+                    <p>Satin smooth finish for dinners and events.</p>
+                    <div class="price">Rs. 2,600 <del>Rs. 3,600</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Burgundy Party Wear Shirt', 2600)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="shirt">
+                <img src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=500" alt="Navy Blue Striped Shirt">
+                <div class="product-info">
+                    <h3>Navy Blue Striped Shirt</h3>
+                    <p>Vertical stripes that give a taller and slim look.</p>
+                    <div class="price">Rs. 2,150 <del>Rs. 2,900</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Navy Blue Striped Shirt', 2150)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="shirt">
+                <img src="https://images.unsplash.com/photo-1620012253295-c05518e993be?w=500" alt="Soft Pink Pastel Shirt">
+                <div class="product-info">
+                    <h3>Soft Pink Pastel Shirt</h3>
+                    <p>Trendy summer shade, ultra soft fabric texture.</p>
+                    <div class="price">Rs. 1,950 <del>Rs. 2,600</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Soft Pink Pastel Shirt', 1950)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="shirt">
+                <img src="https://images.unsplash.com/photo-1563630423918-b58f07298bb9?w=500" alt="Classic Denim Shirt">
+                <div class="product-info">
+                    <h3>Classic Denim Shirt</h3>
+                    <p>Pure indigo washed durable denim shirt.</p>
+                    <div class="price">Rs. 2,750 <del>Rs. 3,800</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Classic Denim Shirt', 2750)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="shirt">
+                <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=500" alt="Light Grey Melange Shirt">
+                <div class="product-info">
+                    <h3>Light Grey Melange Shirt</h3>
+                    <p>Minimalist semi-formal shirt for daily use.</p>
+                    <div class="price">Rs. 2,000 <del>Rs. 2,800</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Light Grey Melange Shirt', 2000)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="shirt">
+                <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500" alt="Beige Linen Summer Shirt">
+                <div class="product-info">
+                    <h3>Beige Linen Summer Shirt</h3>
+                    <p>Stay cool with our premium airy linen collection.</p>
+                    <div class="price">Rs. 2,450 <del>Rs. 3,400</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Beige Linen Summer Shirt', 2450)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="pant">
+                <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500" alt="Classic Chino Pants">
+                <div class="product-info">
+                    <h3>Classic Chino Pants</h3>
+                    <p>Stretchable, durable, and extremely comfortable.</p>
+                    <div class="price">Rs. 2,499 <del>Rs. 3,499</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Classic Chino Pants', 2499)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="pant">
+                <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=500" alt="Luxury Denim Jeans">
+                <div class="product-info">
+                    <h3>Luxury Denim Jeans</h3>
+                    <p>Premium dark wash denim with a perfect tailored fit.</p>
+                    <div class="price">Rs. 2,999 <del>Rs. 4,199</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Luxury Denim Jeans', 2999)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="pant">
+                <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=500" alt="Khaki Smart Chinos">
+                <div class="product-info">
+                    <h3>Khaki Smart Chinos</h3>
+                    <p>Timeless khaki shade, pairs perfectly with everything.</p>
+                    <div class="price">Rs. 2,399 <del>Rs. 3,200</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Khaki Smart Chinos', 2399)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="pant">
+                <img src="https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=500" alt="Jet Black Skinny Jeans">
+                <div class="product-info">
+                    <h3>Jet Black Skinny Jeans</h3>
+                    <p>Deep pitch black stretchable denim jeans.</p>
+                    <div class="price">Rs. 2,899 <del>Rs. 3,999</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Jet Black Skinny Jeans', 2899)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="pant">
+                <img src="https://images.unsplash.com/photo-1604176354204-9268737828e4?w=500" alt="Charcoal Formal Trousers">
+                <div class="product-info">
+                    <h3>Charcoal Formal Trousers</h3>
+                    <p>Non-crease textured formal trousers for gentlemen.</p>
+                    <div class="price">Rs. 2,650 <del>Rs. 3,500</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Charcoal Formal Trousers', 2650)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="pant">
+                <img src="https://images.unsplash.com/photo-1517423738875-5ce310acd3da?w=500" alt="Ice Blue Ripped Jeans">
+                <div class="product-info">
+                    <h3>Ice Blue Ripped Jeans</h3>
+                    <p>Casual rugged aesthetics with light distressing.</p>
+                    <div class="price">Rs. 3,100 <del>Rs. 4,500</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Ice Blue Ripped Jeans', 3100)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="pant">
+                <img src="https://images.unsplash.com/photo-1551854838-212c50b4c184?w=500" alt="Navy Blue Dress Pants">
+                <div class="product-info">
+                    <h3>Navy Blue Dress Pants</h3>
+                    <p>Premium poly-viscose blend sleek regular trousers.</p>
+                    <div class="price">Rs. 2,550 <del>Rs. 3,400</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Navy Blue Dress Pants', 2550)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="pant">
+                <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500" alt="Olive Relaxed Cargo Pants">
+                <div class="product-info">
+                    <h3>Olive Relaxed Cargo Pants</h3>
+                    <p>6-pocket utility combat trousers with supreme fabric.</p>
+                    <div class="price">Rs. 2,999 <del>Rs. 4,000</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Olive Relaxed Cargo Pants', 2999)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="pant">
+                <img src="https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?w=500" alt="Slate Grey Jogger Pants">
+                <div class="product-info">
+                    <h3>Slate Grey Jogger Pants</h3>
+                    <p>Comfortable smart-casual joggers with cuffed ankles.</p>
+                    <div class="price">Rs. 1,999 <del>Rs. 2,800</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Slate Grey Jogger Pants', 1999)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="pant">
+                <img src="https://images.unsplash.com/photo-1565041713146-21808061e860?w=500" alt="Light Wash Classic Denim">
+                <div class="product-info">
+                    <h3>Light Wash Classic Denim</h3>
+                    <p>Old-school 90s comfort fit vintage light wash jeans.</p>
+                    <div class="price">Rs. 2,790 <del>Rs. 3,900</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Light Wash Classic Denim', 2790)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="pant">
+                <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500" alt="Beige Tailored Corduroy">
+                <div class="product-info">
+                    <h3>Beige Tailored Corduroy</h3>
+                    <p>Luxury ribbed fabric trousers for premium winter vibe.</p>
+                    <div class="price">Rs. 3,200 <del>Rs. 4,600</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Beige Tailored Corduroy', 3200)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="pant">
+                <img src="https://images.unsplash.com/photo-1484516396415-4971641de8e0?w=500" alt="Off-White Summer Linen">
+                <div class="product-info">
+                    <h3>Off-White Summer Linen</h3>
+                    <p>Breathable elegant loose fit trousers for hot weather.</p>
+                    <div class="price">Rs. 2,400 <del>Rs. 3,300</del></div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Off-White Summer Linen', 2400)">Add to Cart</button>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <div id="cart-overlay"></div>
-
-    <div id="cart-sidebar">
-        <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary">
-            <h4 class="text-white mb-0"><i class="fas fa-shopping-bag me-2 text-warning"></i>Your Bag</h4>
-            <button id="close-cart-btn" class="btn text-white fs-4 p-0" style="line-height: 1; border:none; background:none;"><i class="fas fa-times"></i></button>
+    <div id="cart-overlay" class="cart-overlay"></div>
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+            <h2 style="color: #fff; margin: 0; font-size: 24px;"><i class="fas fa-shopping-bag me-2 text-warning"></i>Your Bag</h2>
+            <button id="close-cart-btn" style="background: none; border: none; color: #fff; font-size: 24px; cursor: pointer;">&times;</button>
         </div>
-        <div id="cart-items-container" class="flex-grow-1 overflow-auto mb-4">
-            <p class="empty-cart-msg">Your cart is empty.</p>
+        <div id="cart-items-container" style="flex-grow: 1; overflow-y: auto; margin-bottom: 20px;">
+            <p style="text-align: center; color: #666; margin-top: 50px;">Your cart is empty.</p>
         </div>
-        <div class="border-top border-secondary pt-3">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <span class="fs-5 fw-bold">Total Amount:</span>
-                <span id="cart-total-price" class="fs-4 fw-bold text-warning">Rs. 0</span>
+        <div style="border-top: 1px solid #333; pt-3">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <span style="font-size: 18px; font-weight: bold; color: #fff;">Total Amount:</span>
+                <span id="cart-total-price" style="font-size: 22px; font-weight: bold; color: #d4af37;">Rs. 0</span>
             </div>
-            <button id="checkout-btn" class="btn btn-warning w-100 fw-bold py-2 text-dark"><i class="fab fa-whatsapp me-2"></i>Order via WhatsApp</button>
+            <button id="checkout-btn" style="background-color: #d4af37; color: #000; width: 100%; border: none; padding: 12px; font-weight: bold; font-size: 16px; border-radius: 5px; cursor: pointer;"><i class="fab fa-whatsapp me-2"></i>Order via WhatsApp</button>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <section id="contact" class="contact-section">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p>Have any questions? Just drop us a message and we will get back to you within 24 hours.</p>
+                <div class="info-details">
+                    <p><i class="fas fa-phone"></i> +92 3295720165</p>
+                    <p><i class="fas fa-envelope"></i> support@premiumthreads.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Islamabad, Pakistan</p>
+                </div>
+            </div>
+            <form id="contact-form" class="contact-form">
+                <div class="form-group">
+                    <input type="text" id="name" required placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" required placeholder="Your Email">
+                </div>
+                <div class="form-group">
+                    <textarea id="message" rows="5" required placeholder="Your Message"></textarea>
+                </div>
+                <button type="submit" class="btn send-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2026 Premium Threads. All Rights Reserved.</p>
+        </div>
+    </footer>
 
     <script>
         let cart = [];
@@ -534,7 +460,7 @@
             let total = 0;
 
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p class="empty-cart-msg">Your cart is empty.</p>';
+                cartItemsContainer.innerHTML = '<p style="text-align: center; color: #666; margin-top: 50px;">Your cart is empty.</p>';
                 cartTotalPrice.innerText = 'Rs. 0';
                 return;
             }
@@ -544,8 +470,8 @@
                 const itemEl = document.createElement('div');
                 itemEl.className = 'cart-item-row';
                 itemEl.innerHTML = `
-                    <div class="small fw-semibold text-white">${item.name}</div>
-                    <div class="text-warning small fw-bold">Rs. ${item.price}</div>
+                    <div style="font-size: 14px; font-weight: 500;">${item.name}</div>
+                    <div style="color: #d4af37; font-weight: bold; font-size: 14px;">Rs. ${item.price}</div>
                 `;
                 cartItemsContainer.appendChild(itemEl);
             });
@@ -553,7 +479,7 @@
             cartTotalPrice.innerText = `Rs. ${total}`;
         }
 
-        // WhatsApp Checkout Engine Fix
+        // WhatsApp Sender Fix
         if (checkoutBtn) {
             checkoutBtn.addEventListener('click', () => {
                 if (cart.length === 0) {
@@ -574,12 +500,11 @@
 
                 const encodedMessage = encodeURIComponent(message);
                 const whatsappUrl = `https://wa.me/923295720165?text=${encodedMessage}`;
-                
                 window.open(whatsappUrl, '_blank');
             });
         }
 
-        // Stock Fallback Image Fixer
+        // Fallback Image Fixer
         document.querySelectorAll('#products img').forEach(img => {
             img.onerror = function() {
                 if(this.alt.toLowerCase().includes('shirt')) {
