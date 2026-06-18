@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Threads | Pants & Shirts Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="C:\xampp\htdocs\shirts\style.css">
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div id="mobile-menu-icon" class="mobile-menu-icon">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="logo">
+                <a href="#">Premium<span>Threads</span></a>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#" class="nav-filter active" data-filter="all">Home</a></li>
+                    <li><a href="#products" class="nav-filter" data-filter="shirt">Shirts</a></li>
+                    <li><a href="#products" class="nav-filter" data-filter="pant">Pants</a></li>
+                    <li><a href="#products" class="nav-filter" data-filter="all">New Arrivals</a></li>
+                </ul>
+            </nav>
+            <div class="nav-icons">
+                <a href="#" class="icon-btn"><i class="fas fa-search"></i></a>
+                <a href="#" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+                <a href="#" class="icon-btn"><i class="fas fa-user"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Upgrade Your Wardrobe</h1>
+            <p>Discover the finest collection of premium quality Shirts and tailored Pants.</p>
+            <a href="#products" class="btn">Shop Collection</a>
+        </div>
+    </section>
+
+    <section id="products" class="products-section">
+        <h2 class="section-title">Our Premium Collection</h2>
+        
+        <div class="product-container">
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80" alt="Premium Casual Shirt">
+                    <span class="tag">New</span>
+                </div>
+                <div class="product-info">
+                    <h3>Slim-Fit Cotton Shirt</h3>
+                    <p class="price">Rs. 2,499</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80" alt="Classic Chino Pants">
+                    <span class="tag">Hot</span>
+                </div>
+                <div class="product-info">
+                    <h3>Classic Chino Pants</h3>
+                    <p class="price">Rs. 3,199</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80" alt="Formal Oxford Shirt">
+                    <span class="tag">Trending</span>
+                </div>
+                <div class="product-info">
+                    <h3>Formal Oxford Shirt</h3>
+                    <p class="price">Rs. 2,899</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=600&q=80" alt="Premium Denim Jeans">
+                    <span class="tag">Sale</span>
+                </div>
+                <div class="product-info">
+                    <h3>Premium Denim Jeans</h3>
+                    <p class="price">Rs. 3,999</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80" alt="Black Casual Shirt">
+                    <span class="tag">Best Seller</span>
+                </div>
+                <div class="product-info">
+                    <h3>Midnight Black Shirt</h3>
+                    <p class="price">Rs. 2,600</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=600&q=80" alt="Khaki Cargo Pants">
+                    <span class="tag">New</span>
+                </div>
+                <div class="product-info">
+                    <h3>Khaki Tailored Trousers</h3>
+                    <p class="price">Rs. 3,499</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+<div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button id="close-cart" class="close-btn">&times;</button>
+        </div>
+        <div id="cart-items-container" class="cart-items-container">
+            <p class="empty-cart-msg">Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="total-section">
+                <span>Total:</span>
+                <span id="cart-total-price">Rs. 0</span>
+            </div>
+            <button id="checkout-btn" class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+    <div id="cart-overlay" class="cart-overlay"></div>
+    <section id="contact" class="contact-section">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p>Have any questions? Just drop us a message and we will get back to you within 24 hours.</p>
+                <div class="info-details">
+                    <p><i class="fas fa-phone"></i> +92 3295720165</p>
+                    <p><i class="fas fa-envelope"></i> support@premiumthreads.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Islamabad, Pakistan</p>
+                </div>
+            </div>
+
+            <form id="contact-form" class="contact-form">
+                <div class="form-group">
+                    <input type="text" id="name" required placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" required placeholder="Your Email">
+                </div>
+                <div class="form-group">
+                    <textarea id="message" rows="5" required placeholder="Your Message"></textarea>
+                </div>
+                <button type="submit" class="btn send-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2026 Premium Threads. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="C:\xampp\htdocs\shirts\script.js"></script>
+</body>
+</html>
