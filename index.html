@@ -77,6 +77,13 @@
             border-left: 3px solid #d4af37;
             color: #fff;
         }
+        /* Animation for filtering */
+        .product-card {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .product-card.hidden {
+            display: none !important;
+        }
         @media (max-width: 450px) {
             .cart-sidebar { width: 100%; right: -100%; }
         }
@@ -207,7 +214,7 @@
             </div>
 
             <div class="product-card" data-category="shirt">
-                <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&auto=format&fit=crop" alt="Soft Pink Pastel Shirt">
+                <img src="https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?w=500&auto=format&fit=crop" alt="Soft Pink Pastel Shirt">
                 <div class="product-info">
                     <h3>Soft Pink Pastel Shirt</h3>
                     <p>Trendy summer shade, ultra soft fabric texture.</p>
@@ -227,7 +234,7 @@
             </div>
 
             <div class="product-card" data-category="shirt">
-                <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop" alt="Light Grey Melange Shirt">
+                <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=500&auto=format&fit=crop" alt="Light Grey Melange Shirt">
                 <div class="product-info">
                     <h3>Light Grey Melange Shirt</h3>
                     <p>Minimalist semi-formal shirt for daily use.</p>
@@ -287,7 +294,7 @@
             </div>
 
             <div class="product-card" data-category="pant">
-                <img src="https://images.unsplash.com/photo-1604176354204-9268737828e4?w=500&auto=format&fit=crop" alt="Charcoal Formal Trousers">
+                <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500&auto=format&fit=crop" alt="Charcoal Formal Trousers">
                 <div class="product-info">
                     <h3>Charcoal Formal Trousers</h3>
                     <p>Non-crease textured formal trousers for gentlemen.</p>
@@ -378,7 +385,7 @@
         <div id="cart-items-container" style="flex-grow: 1; overflow-y: auto; margin-bottom: 20px;">
             <p style="text-align: center; color: #666; margin-top: 50px;">Your cart is empty.</p>
         </div>
-        <div style="border-top: 1px solid #333; pt-3">
+        <div style="border-top: 1px solid #333; padding-top: 15px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <span style="font-size: 18px; font-weight: bold; color: #fff;">Total Amount:</span>
                 <span id="cart-total-price" style="font-size: 22px; font-weight: bold; color: #d4af37;">Rs. 0</span>
@@ -465,18 +472,29 @@
                 return;
             }
 
-            cart.forEach((item) => {
+            cart.forEach((item, index) => {
                 total += item.price;
                 const itemEl = document.createElement('div');
                 itemEl.className = 'cart-item-row';
+                itemEl.style.display = 'flex';
+                itemEl.style.justify = 'space-between';
+                itemEl.style.alignItems = 'center';
                 itemEl.innerHTML = `
                     <div style="font-size: 14px; font-weight: 500; color: #fff;">${item.name}</div>
-                    <div style="color: #d4af37; font-weight: bold; font-size: 14px;">Rs. ${item.price}</div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #d4af37; font-weight: bold; font-size: 14px;">Rs. ${item.price}</span>
+                        <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 16px;"><i class="fas fa-trash"></i></button>
+                    </div>
                 `;
                 cartItemsContainer.appendChild(itemEl);
             });
 
             cartTotalPrice.innerText = `Rs. ${total}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
         }
 
         // WhatsApp Sender Fix
@@ -501,6 +519,42 @@
                 const encodedMessage = encodeURIComponent(message);
                 const whatsappUrl = `https://wa.me/923295720165?text=${encodedMessage}`;
                 window.open(whatsappUrl, '_blank');
+            });
+        }
+
+        // FIXED: Product Categories Filter Functionality
+        const filterLinks = document.querySelectorAll('.nav-filter');
+        const productCards = document.querySelectorAll('.product-card');
+
+        filterLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                // If it's a home link or category, manage selection
+                filterLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                const filterValue = link.getAttribute('data-filter');
+
+                productCards.forEach(card => {
+                    if (filterValue === 'all') {
+                        card.classList.remove('hidden');
+                    } else {
+                        if (card.getAttribute('data-category') === filterValue) {
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+        });
+
+        // FIXED: Contact Form Submit Reload Fix
+        const contactForm = document.getElementById('contact-form');
+        if(contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert("Thank you for your message! We will get back to you soon.");
+                contactForm.reset();
             });
         }
 
