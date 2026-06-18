@@ -1,59 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Threads | Exclusive Collection</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Premium Threads – Luxury Apparel</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-    <header>
-        <div class="navbar">
-            <div class="logo">Premium<span>Threads</span></div>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#" class="nav-filter active" data-filter="all">Home</a></li>
-                    <li><a href="#" class="nav-filter" data-filter="shirt">Shirts</a></li>
-                    <li><a href="#" class="nav-filter" data-filter="pant">Pants</a></li>
-                </ul>
-            </nav>
-            <div class="nav-icons">
-                <input type="text" id="search-input" placeholder="Search products...">
-                <a href="#" id="open-cart-btn"><i class="fas fa-shopping-cart"></i><span id="cart-count">0</span></a>
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                Premium<span>Threads</span>
             </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#products">Shop</a></li>
+                <li><a href="#shirts">Shirts</a></li>
+                <li><a href="#pants">Pants</a></li>
+                <li><a href="#footer">Contact</a></li>
+                <li>
+                    <button class="nav-cart-btn" id="cartOpenBtn">
+                        <i class="fas fa-shopping-bag"></i>
+                        Cart
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
         </div>
     </header>
 
+    <!-- ============================================================
+    HERO
+    ============================================================ -->
     <section class="hero">
-        <div class="hero-content">
-            <h1>Upgrade Your Wardrobe</h1>
-            <p>Premium quality Shirts and Tailored Pants for your style.</p>
+        <div class="container">
+            <div class="hero-content">
+                <h1>
+                    Elevate Your<br />
+                    <span class="highlight">Everyday Style</span>
+                </h1>
+                <p>
+                    Discover premium-quality shirts and pants crafted for the
+                    modern gentleman. Timeless design, exceptional comfort.
+                </p>
+                <a href="#products" class="hero-btn">
+                    <i class="fas fa-shopping-bag" style="margin-right:10px;"></i>
+                    Explore Collection
+                </a>
+            </div>
+            <div class="hero-image">
+                <div class="badge">
+                    <i class="fas fa-star"></i>
+                    <h3>Premium Quality</h3>
+                    <p>Curated fabrics · Tailored fit · Free shipping</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="products">
-        <h2 class="section-title">Our Collection</h2>
-        <div id="products-grid">
+    <!-- ============================================================
+    PRODUCTS SECTION
+    ============================================================ -->
+    <section class="products-section" id="products">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Our <span>Collection</span></h2>
+                <p>Handpicked for the discerning gentleman</p>
+                <div class="line"></div>
             </div>
+
+            <!-- Tabs -->
+            <div class="product-tabs">
+                <button class="active" data-tab="all">All</button>
+                <button data-tab="shirts">Shirts</button>
+                <button data-tab="pants">Pants</button>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="product-grid" id="productGrid">
+                <!-- Products injected by JS -->
+            </div>
+
+        </div>
     </section>
 
-    <div id="cart-sidebar" class="cart-sidebar">
-        <button id="close-cart-btn">&times;</button>
-        <h2>Your Shopping Bag</h2>
-        <div id="cart-items"></div>
-        <div class="cart-total">Total: <span id="total-price">Rs. 0</span></div>
-        <button id="whatsapp-checkout">Order via WhatsApp</button>
+    <!-- ============================================================
+    CART OVERLAY & SIDEBAR
+    ============================================================ -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-bag"></i> Your Cart</h3>
+            <button class="cart-close" id="cartCloseBtn">&times;</button>
+        </div>
+
+        <div class="cart-body" id="cartBody">
+            <div class="cart-empty" id="cartEmpty">
+                <i class="fas fa-shopping-bag"></i>
+                <p>Your cart is empty.</p>
+                <p style="font-size:14px; color:#bbb;">Add some premium pieces!</p>
+            </div>
+            <div id="cartItemsList"></div>
+        </div>
+
+        <div class="cart-footer" id="cartFooter">
+            <div class="calc-row">
+                <span>Subtotal</span>
+                <span id="subtotal">$0.00</span>
+            </div>
+            <div class="calc-row">
+                <span>Tax (5%)</span>
+                <span id="taxAmount">$0.00</span>
+            </div>
+            <div class="calc-row total">
+                <span>Total</span>
+                <span id="totalAmount">$0.00</span>
+            </div>
+
+            <button class="checkout-btn" id="checkoutBtn">
+                <i class="fab fa-whatsapp"></i>
+                Checkout via WhatsApp
+            </button>
+            <p style="font-size:12px; color:#999; text-align:center; margin-top:10px;">
+                <i class="fas fa-lock" style="margin-right:4px;"></i>
+                Secure checkout · Pay with WhatsApp
+            </p>
+        </div>
     </div>
 
-    <section id="about">
-        <div class="about-content">
-            <h2>About Us</h2>
-            <p>Premium Threads brings you the best in class apparel for modern men.</p>
-        </div>
-    </section>
+    <!-- ============================================================
+    TOAST
+    ============================================================ -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">Added to cart!</span>
+    </div>
 
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="brand">
+                <div class="logo-sm">
+                    <i class="fas fa-crown" style="margin-right:6px;"></i>
+                    PremiumThreads
+                </div>
+                <p>
+                    Premium Threads – where elegance meets everyday comfort.
+                    We curate the finest shirts and pants for the modern man.
+                </p>
+                <div class="socials">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#products">Shop All</a></li>
+                    <li><a href="#shirts">Shirts</a></li>
+                    <li><a href="#pants">Pants</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <ul>
+                    <li><i class="fas fa-phone" style="color:var(--gold);margin-right:8px;"></i> +92 332 957 20165</li>
+                    <li><i class="fas fa-envelope" style="color:var(--gold);margin-right:8px;"></i> info@premiumthreads.com</li>
+                    <li><i class="fas fa-map-marker-alt" style="color:var(--gold);margin-right:8px;"></i> Lahore, Pakistan</li>
+                    <li><a href="#" style="color:var(--gold);"><i class="fab fa-whatsapp" style="margin-right:6px;"></i> WhatsApp</a></li>
+                </ul>
+            </div>
+            <div class="bottom">
+                &copy; 2026 <strong style="color:var(--gold);">Premium Threads</strong> — All rights reserved.
+                Crafted with <i class="fas fa-heart" style="color:#e74c3c;font-size:12px;"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
