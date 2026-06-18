@@ -139,5 +139,22 @@
     </footer>
 
    <script src="script.js"></script>
+    <script>
+// Cart array to store items
+let cart = [];
+
+function addToCart(productName, price) {
+    // Add item to cart
+    cart.push({ name: productName, price: price });
+    
+    // Alert user or update UI
+    alert(productName + " has been added to your cart!");
+    
+    // Update the cart display (if you have a function for it)
+    if (typeof updateCartUI === "function") {
+        updateCartUI();
+    }
+}
+</script>
 </body>
 </html>
