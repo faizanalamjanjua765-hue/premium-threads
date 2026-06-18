@@ -338,3 +338,34 @@ document.querySelector('.hero-btn').addEventListener('click', (e) => {
 
 console.log('🛍️ Premium Threads loaded successfully!');
 console.log('📞 WhatsApp: +923295720165');
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Cart Toggle Logic
+    const cartSidebar = document.getElementById('cartSidebar');
+    const cartOpenBtn = document.getElementById('cartOpenBtn');
+    const cartCloseBtn = document.getElementById('cartCloseBtn');
+
+    if (cartOpenBtn) {
+        cartOpenBtn.addEventListener('click', () => cartSidebar.classList.add('active'));
+    }
+    if (cartCloseBtn) {
+        cartCloseBtn.addEventListener('click', () => cartSidebar.classList.remove('active'));
+    }
+
+    // 2. Filter Logic
+    const tabs = document.querySelectorAll('.product-tabs button');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const category = tab.getAttribute('data-tab');
+            
+            document.querySelectorAll('.product-card').forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
