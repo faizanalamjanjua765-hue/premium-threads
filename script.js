@@ -39,12 +39,21 @@ function addToCart(productName, price) {
     updateCartUI();
     
     // Auto open cart when item added
-    cartSidebar.classList.add('active');
-    cartOverlay.classList.add('active');
+    if (cartSidebar && cartOverlay) {
+        cartSidebar.classList.add('active');
+        cartOverlay.classList.add('active');
+    }
 }
 
-// Update Cart User Interface
+// Update Cart User Interface & Count
 function updateCartUI() {
+    // 1. Update Cart Badge/Count
+    const cartBadge = document.querySelector('.cart-count');
+    if (cartBadge) {
+        cartBadge.innerText = cart.length;
+    }
+
+    // 2. Clear previous items
     cartItemsContainer.innerHTML = '';
     let total = 0;
 
@@ -54,6 +63,7 @@ function updateCartUI() {
         return;
     }
 
+    // 3. Render items
     cart.forEach((item, index) => {
         total += item.price;
         const itemEl = document.createElement('div');
@@ -98,4 +108,3 @@ if (checkoutBtn) {
         window.open(whatsappUrl, '_blank');
     });
 }
-});
