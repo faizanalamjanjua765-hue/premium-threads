@@ -504,7 +504,7 @@
             });
         }
 
-        // Ultimate Fallback Image Fixer
+        // Fixed Standard Base Images to eliminate Dynamic URL Overriding
         document.querySelectorAll('#products img').forEach(img => {
             img.onerror = function() {
                 if(this.alt.toLowerCase().includes('shirt')) {
