@@ -1,110 +1,95 @@
-// Cart array to store items
+// Product Data - Aap yahan 5 shirts aur 5 pants add kar sakte hain
+const products = [
+    { id: 1, name: "Premium Slim-Fit Shirt", category: "shirt", price: 2199 },
+    { id: 2, name: "Royal Blue Formal Shirt", category: "shirt", price: 2350 },
+    { id: 3, name: "Charcoal Casual Shirt", category: "shirt", price: 1999 },
+    { id: 4, name: "Classic White Luxury Shirt", category: "shirt", price: 2500 },
+    { id: 5, name: "Black Matt Finished Shirt", category: "shirt", price: 2250 },
+    { id: 6, name: "Classic Chino Pants", category: "pant", price: 2499 },
+    { id: 7, name: "Luxury Denim Jeans", category: "pant", price: 2999 },
+    { id: 8, name: "Khaki Smart Chinos", category: "pant", price: 2399 },
+    { id: 9, name: "Jet Black Skinny Jeans", category: "pant", price: 2899 },
+    { id: 10, name: "Charcoal Formal Trousers", category: "pant", price: 2650 }
+];
+
 let cart = [];
 
-// DOM Elements
+// Cart Toggle Logic
 const cartSidebar = document.getElementById('cart-sidebar');
-const cartOverlay = document.getElementById('cart-overlay');
-const cartItemsContainer = document.getElementById('cart-items-container');
-const cartTotalPrice = document.getElementById('cart-total-price');
-const checkoutBtn = document.getElementById('checkout-btn');
-const closeCartBtn = document.getElementById('close-cart');
-const cartIcon = document.querySelector('.fa-shopping-cart');
+const openCartBtn = document.getElementById('open-cart-btn');
+const closeCartBtn = document.getElementById('close-cart-btn');
 
-// Toggle Cart Sidebar
-if (cartIcon) {
-    cartIcon.addEventListener('click', (e) => {
-        e.preventDefault();
-        cartSidebar.classList.add('active');
-        cartOverlay.classList.add('active');
-    });
-}
+openCartBtn.addEventListener('click', (e) => { e.preventDefault(); cartSidebar.classList.add('active'); });
+closeCartBtn.addEventListener('click', () => cartSidebar.classList.remove('active'));
 
-if (closeCartBtn) {
-    closeCartBtn.addEventListener('click', () => {
-        cartSidebar.classList.remove('active');
-        cartOverlay.classList.remove('active');
-    });
-}
-
-if (cartOverlay) {
-    cartOverlay.addEventListener('click', () => {
-        cartSidebar.classList.remove('active');
-        cartOverlay.classList.remove('active');
-    });
-}
-
-// Add to Cart Function
-function addToCart(productName, price) {
-    cart.push({ name: productName, price: price });
+// Add to Cart
+function addToCart(name, price) {
+    cart.push({ name, price });
     updateCartUI();
-    
-    // Auto open cart when item added
-    if (cartSidebar && cartOverlay) {
-        cartSidebar.classList.add('active');
-        cartOverlay.classList.add('active');
-    }
 }
 
-// Update Cart User Interface & Count
 function updateCartUI() {
-    // 1. Update Cart Badge/Count
-    const cartBadge = document.querySelector('.cart-count');
-    if (cartBadge) {
-        cartBadge.innerText = cart.length;
-    }
-
-    // 2. Clear previous items
-    cartItemsContainer.innerHTML = '';
+    const cartItems = document.getElementById('cart-items');
+    const cartCount = document.getElementById('cart-count');
+    const totalPriceEl = document.getElementById('total-price');
+    cartItems.innerHTML = '';
     let total = 0;
 
-    if (cart.length === 0) {
-        cartItemsContainer.innerHTML = '<p class="empty-cart-msg">Your cart is empty.</p>';
-        cartTotalPrice.innerText = 'Rs. 0';
-        return;
-    }
-
-    // 3. Render items
     cart.forEach((item, index) => {
         total += item.price;
-        const itemEl = document.createElement('div');
-        itemEl.style.display = 'flex';
-        itemEl.style.justifyContent = 'space-between';
-        itemEl.style.marginBottom = '10px';
-        itemEl.style.padding = '5px 0';
-        itemEl.style.borderBottom = '1px solid #333';
-        
-        itemEl.innerHTML = `
-            <span>${item.name}</span>
-            <span class="text-warning">Rs. ${item.price}</span>
-        `;
-        cartItemsContainer.appendChild(itemEl);
+        cartItems.innerHTML += `<div class="cart-item">${item.name} - Rs. ${item.price} <button onclick="removeFromCart(${index})">x</button></div>`;
     });
 
-    cartTotalPrice.innerText = `Rs. ${total}`;
+    cartCount.innerText = cart.length;
+    totalPriceEl.innerText = `Rs. ${total}`;
 }
 
-// Checkout Button (WhatsApp Integration)
-if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', () => {
-        if (cart.length === 0) {
-            alert("Your cart is empty!");
-            return;
-        }
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartUI();
+}
 
-        let message = "*--- NEW ORDER FROM PREMIUM THREADS ---*\n\n";
-        let total = 0;
-        
-        cart.forEach((item, index) => {
-            message += `${index + 1}. ${item.name} - Rs. ${item.price}\n`;
-            total += item.price;
+// Search & Filter Logic
+const searchInput = document.getElementById('search-input');
+const navFilters = document.querySelectorAll('.nav-filter');
+
+searchInput.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    document.querySelectorAll('.product-card').forEach(card => {
+        const name = card.getAttribute('data-name').toLowerCase();
+        card.style.display = name.includes(term) ? 'block' : 'none';
+    });
+});
+
+navFilters.forEach(filter => {
+    filter.addEventListener('click', (e) => {
+        e.preventDefault();
+        const category = filter.getAttribute('data-filter');
+        document.querySelectorAll('.product-card').forEach(card => {
+            if (category === 'all' || card.getAttribute('data-category') === category) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
         });
-
-        message += `\n*Total Amount:* Rs. ${total}\n`;
-        message += "\nKindly reply with your Name and Delivery Address to confirm your order!";
-
-        const encodedMessage = encodeURIComponent(message);
-        const whatsappUrl = `https://wa.me/923295720165?text=${encodedMessage}`;
-        
-        window.open(whatsappUrl, '_blank');
     });
-}
+});
+
+// WhatsApp Checkout
+document.getElementById('whatsapp-checkout').addEventListener('click', () => {
+    if (cart.length === 0) return alert("Cart is empty!");
+    let msg = "Order Request:\n" + cart.map(i => i.name + " - Rs." + i.price).join("\n");
+    window.open(`https://wa.me/923295720165?text=${encodeURIComponent(msg)}`, '_blank');
+});
+
+// Render Products
+const grid = document.getElementById('products-grid');
+products.forEach(p => {
+    grid.innerHTML += `
+        <div class="product-card" data-category="${p.category}" data-name="${p.name}">
+            <h3>${p.name}</h3>
+            <p>Rs. ${p.price}</p>
+            <button onclick="addToCart('${p.name}', ${p.price})">Add to Cart</button>
+        </div>
+    `;
+});
