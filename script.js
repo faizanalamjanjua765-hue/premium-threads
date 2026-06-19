@@ -422,3 +422,27 @@ document.getElementById('checkoutForm').addEventListener('submit', function(e) {
     // WhatsApp par le jayen
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
 });
+// Checkout Form Handling
+document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Details get karein
+    const name = document.getElementById('name').value;
+    const address = document.getElementById('address').value;
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+    
+    // WhatsApp Number
+    const whatsappNumber = "923295720165"; 
+    
+    // Message design
+    const message = `*New Order Details*%0A
+    Name: ${name}%0A
+    Address: ${address}%0A
+    Payment Method: ${paymentMethod}%0A
+    *Status: Order placed. Please verify receipt.*`;
+    
+    alert("Order recorded! Redirecting to WhatsApp...");
+    
+    // WhatsApp par le jayen
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+});
