@@ -524,3 +524,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+// Direct WhatsApp Send Function
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.id === 'checkoutBtn') {
+        e.preventDefault();
+
+        // Details uthayen
+        const name = document.getElementById('name') ? document.getElementById('name').value : "Customer";
+        const address = document.getElementById('address') ? document.getElementById('address').value : "Address not provided";
+        
+        // Payment method ki value
+        const paymentRadio = document.querySelector('input[name="paymentMethod"]:checked');
+        const payment = paymentRadio ? paymentRadio.value : "Not selected";
+
+        // WhatsApp Number aur Message
+        const whatsappNumber = "9233295720165";
+        const message = `*New Order*%0A%0AName: ${name}%0AAddress: ${address}%0APayment: ${payment}%0A%0A*Please confirm my order.*`;
+
+        // Direct WhatsApp Link
+        window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+    }
+});
