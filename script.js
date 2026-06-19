@@ -446,3 +446,42 @@ document.getElementById('checkoutForm').addEventListener('submit', function(e) {
     // WhatsApp par le jayen
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
 });
+// Checkout Button Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // 1. Inputs se data uthayen (Yaad rahe IDs aapke index.html mein honi chahiye)
+            const name = document.getElementById('name') ? document.getElementById('name').value : "Not provided";
+            const address = document.getElementById('address') ? document.getElementById('address').value : "Not provided";
+            
+            // Payment method radio button check karein
+            const paymentOption = document.querySelector('input[name="paymentMethod"]:checked');
+            const receipt = document.getElementById('receipt').files[0];
+
+            // 2. Validation
+            if (!paymentOption) {
+                alert("Please select a payment method (Easypaisa/JazzCash).");
+                return;
+            }
+            if (!receipt) {
+                alert("Please upload the payment receipt screenshot.");
+                return;
+            }
+
+            // 3. Message format
+            const whatsappNumber = "9233295720165";
+            const message = `*New Order Details*%0A%0A` +
+                            `*Name:* ${name}%0A` +
+                            `*Address:* ${address}%0A` +
+                            `*Payment Method:* ${paymentOption.value}%0A` +
+                            `*Status:* Receipt attached by customer.`;
+
+            // 4. WhatsApp par redirect
+            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+        });
+    }
+});
