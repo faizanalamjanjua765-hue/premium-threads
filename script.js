@@ -485,3 +485,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+// ============================================================
+// CHECKOUT VIA WHATSAPP LOGIC
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // 1. Details get karein (ID verify kar len apne HTML mein)
+            const name = document.getElementById('name') ? document.getElementById('name').value : "Not provided";
+            const address = document.getElementById('address') ? document.getElementById('address').value : "Not provided";
+            const paymentOption = document.querySelector('input[name="paymentMethod"]:checked');
+            const receipt = document.getElementById('receipt') ? document.getElementById('receipt').files[0] : null;
+
+            // 2. Validation
+            if (!paymentOption) {
+                alert("Please select a payment method (Easypaisa/JazzCash).");
+                return;
+            }
+            if (!receipt) {
+                alert("Please upload the payment receipt screenshot.");
+                return;
+            }
+
+            // 3. WhatsApp Message
+            const whatsappNumber = "9233295720165";
+            const message = `*New Order Details*%0A%0A` +
+                            `*Name:* ${name}%0A` +
+                            `*Address:* ${address}%0A` +
+                            `*Payment Method:* ${paymentOption.value}%0A` +
+                            `*Status:* Receipt attached by customer.`;
+
+            // 4. WhatsApp Direct Link
+            window.location.href = `https://wa.me/${whatsappNumber}?text=${message}`;
+        });
+    }
+});
