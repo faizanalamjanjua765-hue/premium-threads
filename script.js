@@ -378,3 +378,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+// ============================================================
+// PAYMENT FORM HANDLING
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+    const paymentForm = document.getElementById('paymentForm');
+    
+    if (paymentForm) {
+        paymentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Apna WhatsApp number yahan likhein (Country code ke saath, bina +)
+            const whatsappNumber = "923295720165"; 
+            const message = "Hello, I have placed an order and attached the payment receipt. Please confirm.";
+            
+            alert("Payment receipt uploaded successfully! Redirecting to WhatsApp for confirmation.");
+            
+            // WhatsApp par redirect
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        });
+    }
+});
