@@ -281,15 +281,24 @@ checkoutBtn.addEventListener('click', () => {
         `• ${i.name} × ${i.qty} = $${(i.price * i.qty).toFixed(2)}`
     ).join('%0A');
 
-    const message =
-        `🛍️ *Premium Threads Order*%0A%0A` +
-        `📦 *Items:*%0A${itemsStr}%0A%0A` +
-        `💰 *Subtotal:* $${subtotal.toFixed(2)}%0A` +
-        `🧾 *Tax (5%):* $${tax.toFixed(2)}%0A` +
-        `🔹 *Total:* $${total.toFixed(2)}%0A%0A` +
-        `👤 *Customer Name:* %0A` +
-        `📞 *Phone:* %0A` +
-        `📍 *Address:* %0A%0A` +
+    // User se input lenay ke liye
+    const userName = prompt("Enter your Name:");
+    const userPhone = prompt("Enter your Phone Number:");
+    const userAddress = prompt("Enter your Address:");
+
+    if (!userName || !userPhone || !userAddress) {
+        alert("Order confirm karne ke liye name, phone aur address lazmi hai!");
+        return;
+    }
+
+    const message = `🛍️ *Premium Threads Order*%0A%0A` + 
+        `👤 *Name:* ${userName}%0A` + 
+        `📞 *Phone:* ${userPhone}%0A` + 
+        `📍 *Address:* ${userAddress}%0A%0A` + 
+        `📦 *Items:*%0A ${itemsStr}%0A%0A` + 
+        `💰 *Subtotal:* $ ${subtotal.toFixed(2)}%0A` + 
+        `🧾 *Tax (5%):* $ ${tax.toFixed(2)}%0A` + 
+        `🔹 *Total:* $ ${total.toFixed(2)}%0A%0A` + 
         `✅ *Please confirm my order!*`;
 
     const url = `https://wa.me/923295720165?text=${message}`;
