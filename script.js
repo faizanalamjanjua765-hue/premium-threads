@@ -545,3 +545,30 @@ document.addEventListener('click', function(e) {
         window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
     }
 });
+// ============================================================
+// DIRECT WHATSAPP ORDER CONFIRMATION
+// ============================================================
+document.addEventListener('click', function(e) {
+    // Check karein ke click "checkoutBtn" par hua hai
+    if (e.target && e.target.id === 'checkoutBtn') {
+        e.preventDefault();
+
+        // 1. Form se data uthayen
+        const name = document.getElementById('name') ? document.getElementById('name').value : "Customer";
+        const address = document.getElementById('address') ? document.getElementById('address').value : "Not provided";
+        
+        // Payment method ki value
+        const paymentRadio = document.querySelector('input[name="paymentMethod"]:checked');
+        const payment = paymentRadio ? paymentRadio.value : "Not selected";
+
+        // 2. WhatsApp Number aur Message
+        const whatsappNumber = "923295720165"; 
+        const message = `*New Order Details*%0A%0A` +
+                        `*Name:* ${name}%0A` +
+                        `*Address:* ${address}%0A` +
+                        `*Payment Method:* ${payment}`;
+
+        // 3. Direct WhatsApp par bhejen
+        window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+    }
+});
