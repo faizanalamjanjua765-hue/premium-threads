@@ -399,3 +399,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+// Ye code us function mein add karein jahan aapka order form submit hota hai
+document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Form ki values uthayen
+    const name = document.getElementById('name').value;
+    const address = document.getElementById('address').value;
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+    
+    const whatsappNumber = "923295720165"; 
+    
+    // WhatsApp message build karein
+    const message = `New Order Details:
+    Name: ${name}
+    Address: ${address}
+    Payment Method: ${paymentMethod}
+    Please confirm my order.`;
+    
+    alert("Order details recorded! Please send the screenshot on WhatsApp.");
+    
+    // WhatsApp par le jayen
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
+});
