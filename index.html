@@ -155,6 +155,18 @@
     <input type="email" id="custEmail" placeholder="Email Address" style="width: 100%; padding: 8px; margin-bottom: 5px; border: 1px solid #ddd;">
     <textarea id="custAddress" placeholder="Delivery Address" style="width: 100%; padding: 8px; border: 1px solid #ddd;"></textarea>
 </div>
+            <div class="payment-method-fields">
+    <p><strong>Payment Options:</strong></p>
+    <label>
+        <input type="radio" name="payment" value="Easypaisa" required> Easypaisa (03xx-xxxxxxx)
+    </label><br>
+    <label>
+        <input type="radio" name="payment" value="JazzCash"> JazzCash (03xx-xxxxxxx)
+    </label>
+    <br><br>
+    <label for="receipt">Upload Receipt Screenshot:</label>
+    <input type="file" id="receipt" accept="image/*" required>
+</div>
             <button class="checkout-btn" id="checkoutBtn">
                 <i class="fab fa-whatsapp"></i>
                 Checkout via WhatsApp
