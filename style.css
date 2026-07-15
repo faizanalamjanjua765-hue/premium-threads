@@ -894,17 +894,3 @@ img {
         font-size: 12px;
     }
 }
-/* Ensure style.css is loaded */
-body { font-family: 'Inter', sans-serif; }
-.product-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-    gap: 20px; 
-    padding: 20px;
-}
-.hidden { display: none !important; }
-.cart-sidebar {
-    position: fixed; top: 0; right: -400px; width: 400px; height: 100%;
-    background: #fff; z-index: 9999; transition: 0.3s;
-}
-.cart-sidebar.active { right: 0; }
